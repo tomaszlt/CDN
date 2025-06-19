@@ -1,8 +1,15 @@
 node_modules/
 dist/
 .env
+logs/
 *.log
 .DS_Store
+.vscode/
 coverage/
-.vitest
 .nyc_output/
+*.tgz
+.npm
+.eslintcache
+__pycache__/
+*.py[cod]
+*.sqlite3
