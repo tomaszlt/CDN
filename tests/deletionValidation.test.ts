@@ -6,14 +6,6 @@ import {
   ValidationError 
 } from '../src/utils/deletionValidation';
 
-// Install uuid for test
-import { install_dependency } from '../tools/install_dependency';
-install_dependency({ 
-  package_name: 'uuid', 
-  package_manager: 'npm', 
-  is_dev_dependency: true 
-});
-
 describe('File Deletion Validation', () => {
   const validFileId = uuidv4();
 
