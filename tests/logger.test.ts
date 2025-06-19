@@ -1,11 +1,25 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import logger from '../src/config/logger';
 
 describe('Logger Configuration', () => {
+  const logDir = path.join(process.cwd(), 'logs');
+  const errorLogPath = path.join(logDir, 'error.log');
+  const combinedLogPath = path.join(logDir, 'combined.log');
+
+  beforeAll(() => {
+    // Ensure log directory exists
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir);
+    }
+
+    // Touch log files
+    fs.writeFileSync(errorLogPath, '');
+    fs.writeFileSync(combinedLogPath, '');
+  });
+
   it('should create log directory', () => {
-    const logDir = path.join(process.cwd(), 'logs');
     expect(fs.existsSync(logDir)).toBeTruthy();
   });
 
@@ -23,9 +37,6 @@ describe('Logger Configuration', () => {
   });
 
   it('should create log files', () => {
-    const errorLogPath = path.join(process.cwd(), 'logs', 'error.log');
-    const combinedLogPath = path.join(process.cwd(), 'logs', 'combined.log');
-    
     expect(fs.existsSync(errorLogPath)).toBeTruthy();
     expect(fs.existsSync(combinedLogPath)).toBeTruthy();
   });
