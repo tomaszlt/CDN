@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { AuthMiddleware } from '../src/middleware/authMiddleware';
 import { Request, Response, NextFunction } from 'express';
 
@@ -21,15 +21,14 @@ describe('AuthMiddleware', () => {
       json: () => {}
     } as unknown as Response;
 
-    const mockNext = (() => {}) as NextFunction;
+    const mockNext = vi.fn() as unknown as NextFunction;
 
     const statusSpy = vi.spyOn(mockRes, 'status');
-    const nextSpy = vi.spyOn(mockNext);
 
     AuthMiddleware.authenticate(mockReq, mockRes, mockNext);
 
     expect(statusSpy).not.toHaveBeenCalled();
-    expect(nextSpy).toHaveBeenCalled();
+    expect(mockNext).toHaveBeenCalled();
   });
 
   it('should reject request without API key', () => {
@@ -42,7 +41,7 @@ describe('AuthMiddleware', () => {
       json: vi.fn()
     } as unknown as Response;
 
-    const mockNext = vi.fn() as NextFunction;
+    const mockNext = vi.fn() as unknown as NextFunction;
 
     AuthMiddleware.authenticate(mockReq, mockRes, mockNext);
 
@@ -64,7 +63,7 @@ describe('AuthMiddleware', () => {
       json: vi.fn()
     } as unknown as Response;
 
-    const mockNext = vi.fn() as NextFunction;
+    const mockNext = vi.fn() as unknown as NextFunction;
 
     AuthMiddleware.authenticate(mockReq, mockRes, mockNext);
 
